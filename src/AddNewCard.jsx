@@ -8,10 +8,23 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { useId } from 'react';
 
-const AddNewCard = ({addNewClicked, addNewClickedClosed}) => {
+const AddNewCard = ({addNewClicked, addNewClickedClosed, addCard}) => {
 let [transition, setTransition] = useState('')
 let [active, setActive] = useState('')
+const [title, setTitle] = useState('')
+const [text, setText] = useState('')
+
+
+
+const handleTitleChange = event =>{
+    setTitle(event.target.value)
+}
+
+const handleTextChange = event =>{
+    setText(event.target.value)
+}
 
     useEffect(()=>{
         if((addNewClicked === true )){
@@ -35,11 +48,11 @@ let [active, setActive] = useState('')
                             <Typography gutterBottom variant="h5" component="div">
                                 Add new card
                             </Typography>
-                            <TextField fullWidth label="title" id="title" />
-                            <TextField fullWidth label="text" id="text" />
+                            <TextField fullWidth label="title" id="title" value={title} onChange={handleTitleChange}/>
+                            <TextField fullWidth label="text" id="text" value={text} onChange={handleTextChange}/>
                         </CardContent>
                         <CardActions>
-                            <Button>Add new</Button>
+                            <Button onClick={()=>{addCard(1111,title,text)}}>Add new</Button>
                         </CardActions>
                     </Card>
                     <div className="overlay" onClick={()=>{

@@ -36,14 +36,14 @@ function App() {
     ));
     }
 
-    const addCard = (card) =>{
+    const addCard = (id,title,text) =>{
         fetch('https://dummyjson.com/posts/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            title: card.title,
-            body: card.body,
-            id: card.id,
+            title: title,
+            body: text,
+            userId: id,
             /* other post data */
           })
         })
