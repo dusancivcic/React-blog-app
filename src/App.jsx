@@ -37,19 +37,17 @@ function App() {
     }
 
     const addCard = (id,title,text) =>{
-        fetch('https://dummyjson.com/posts/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: title,
-            body: text,
-            userId: id,
-            /* other post data */
-          })
-        })
-        .then(res => res.json())
-        .then(console.log);
-    }
+      const temp = {
+        id: id,
+        title: title,
+        body: text,
+        userId: id
+      }
+      const tempArray = cardsArray;
+      tempArray.push(temp)
+      setCardsArray(tempArray)
+      console.log(cardsArray) 
+      }
 
   return (
     <>

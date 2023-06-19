@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useId } from 'react';
+
 
 const AddNewCard = ({addNewClicked, addNewClickedClosed, addCard}) => {
 let [transition, setTransition] = useState('')
@@ -52,7 +52,7 @@ const handleTextChange = event =>{
                             <TextField fullWidth label="text" id="text" value={text} onChange={handleTextChange}/>
                         </CardContent>
                         <CardActions>
-                            <Button onClick={()=>{addCard(1111,title,text)}}>Add new</Button>
+                            <Button onClick={()=>{addCard(9,title,text)}}>Add new</Button>
                         </CardActions>
                     </Card>
                     <div className="overlay" onClick={()=>{
