@@ -6,7 +6,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
 
-const BlogCard = ({card,deleteCard}) =>{
+const BlogCard = ({card,deleteCard,editCard,editClicked}) =>{
+    
     return(
        <>
             <Grid item xs={4}>
@@ -21,7 +22,10 @@ const BlogCard = ({card,deleteCard}) =>{
                     </CardContent>
                     <CardActions>
                         <Button>Read more</Button>
-                        <Button>Edit</Button>
+                        <Button onClick={()=>{
+                            editClicked(true)
+                            editCard(card)
+                        }}>Edit</Button>
                         <Button onClick={()=>{deleteCard(card.id)}}>Delete</Button>
                     </CardActions>
                 </Card>

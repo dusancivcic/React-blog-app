@@ -7,11 +7,15 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddNewCard from './AddNewCard';
+import EditCard from './EditCard';
 
 function App() {
 
   let [cardsArray,setCardsArray] = useState()
+  let [editedCard, setEditedCard] = useState({id: '', title: '', body: '', userId: ''})
 
+
+  
   useEffect(()=>{
     fetch('https://dummyjson.com/posts')
     .then(res => res.json())
@@ -19,10 +23,12 @@ function App() {
   }, [])
 
   let [addNewClicked, setAddNewClicked] = useState(false)
-  
+  let [editIsClicked, setEditIsClicked] = useState(false)
+
   const addNewClickedClosed = (clicked) =>{
     setAddNewClicked(clicked)
   }
+
 
   const deleteCard = (id) => {
     fetch(`https://dummyjson.com/posts/${id}`, {
@@ -36,6 +42,10 @@ function App() {
     ));
     }
 
+    const editCard = (card) =>{
+      setEditedCard(card)
+    }
+
     const addCard = (id,title,text) =>{
       const temp = {
         id: id,
@@ -44,9 +54,24 @@ function App() {
         userId: id
       }
       const tempArray = cardsArray;
-      tempArray.push(temp)
+      tempArray.unshift(temp)
       setCardsArray(tempArray)
-      console.log(cardsArray) 
+      }
+
+      const editClicked = (clicked) =>{
+          setEditIsClicked(clicked)
+      }
+    
+      const editCardHandler = (id,title,body) =>{
+         const tempArray = cardsArray.map(card =>{
+            if(card.id === id){
+              return {...card, title: title, body: body}
+            }
+            return card;
+          });
+
+          setCardsArray(tempArray)
+          
       }
 
   return (
@@ -60,11 +85,11 @@ function App() {
           </Stack>
           
           <AddNewCard addNewClicked={addNewClicked} addNewClickedClosed={addNewClickedClosed} addCard={addCard}></AddNewCard>
-
+          <EditCard editCardHandler={editCardHandler} editedCard={editedCard} editIsClicked={editIsClicked}></EditCard>
           <Grid container spacing={4}>
                   {
                       cardsArray?.map(card=>(
-                        <BlogCard card={card} key={card.id} deleteCard={deleteCard}></BlogCard>
+                        <BlogCard card={card} key={card.id} deleteCard={deleteCard} editCard={editCard} editClicked={editClicked}></BlogCard>
                       ))
                   }
           </Grid>
