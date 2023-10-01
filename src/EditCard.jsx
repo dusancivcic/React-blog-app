@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 
 
-const EditCard = ({editedCard, editIsClicked, editCardHandler}) =>{
+const EditCard = ({editedCard, editIsClicked, editClicked, editCardHandler}) =>{
 
     
     let [transition, setTransition] = useState('')
@@ -27,6 +27,7 @@ const EditCard = ({editedCard, editIsClicked, editCardHandler}) =>{
     }
     
         useEffect(()=>{
+            console.log('test')
             if((editIsClicked === true )){
                 setActive('active')
                 setTitle(editedCard.title)
@@ -39,6 +40,7 @@ const EditCard = ({editedCard, editIsClicked, editCardHandler}) =>{
                 setTimeout(()=>{
                     setActive('')
                 }, 550)
+                editClicked(false)
             }
         },[editIsClicked])
 
@@ -61,6 +63,7 @@ const EditCard = ({editedCard, editIsClicked, editCardHandler}) =>{
                                 setTimeout(()=>{
                                     setActive('')
                                 }, 550)
+                                editClicked(false)
                                 // addNewClickedClosed(false)
                                 }}>Edit new</Button>
                         </CardActions>
@@ -70,6 +73,7 @@ const EditCard = ({editedCard, editIsClicked, editCardHandler}) =>{
                         setTimeout(()=>{
                             setActive('')
                         }, 550)
+                        editClicked(false)
                         // addNewClickedClosed(false)
                         }}></div>
                 </div>

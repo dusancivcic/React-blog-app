@@ -8,12 +8,13 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddNewCard from './AddNewCard';
 import EditCard from './EditCard';
+import TextField from '@mui/material/TextField';
 
 function App() {
 
   let [cardsArray,setCardsArray] = useState()
   let [editedCard, setEditedCard] = useState({id: '', title: '', body: '', userId: ''})
-
+  let [searchText, setSearchText] = useState('');
 
   
   useEffect(()=>{
@@ -29,6 +30,9 @@ function App() {
     setAddNewClicked(clicked)
   }
 
+  const handleSearchInput = event =>{
+    setSearchText(event.target.value.toLowerCase())
+}
 
   const deleteCard = (id) => {
     fetch(`https://dummyjson.com/posts/${id}`, {
@@ -46,6 +50,7 @@ function App() {
       setEditedCard(card)
     }
 
+    
     const addCard = (id,title,text) =>{
       const temp = {
         id: id,
@@ -81,17 +86,27 @@ function App() {
             <Typography style={{fontSize: '40px'}} component="h1">
               Our blog
             </Typography>
-            <Button onClick={()=>setAddNewClicked(true)}>Add new</Button>
+            <Stack direction="row" style={{ alignItems: 'center'}}>
+              <TextField id="outlined-basic" label="Search" variant="outlined" onChange={handleSearchInput} />
+              <Button onClick={()=>setAddNewClicked(true)}>Add new</Button>
+            </Stack>
           </Stack>
           
           <AddNewCard addNewClicked={addNewClicked} addNewClickedClosed={addNewClickedClosed} addCard={addCard}></AddNewCard>
-          <EditCard editCardHandler={editCardHandler} editedCard={editedCard} editIsClicked={editIsClicked}></EditCard>
+          <EditCard editCardHandler={editCardHandler} editedCard={editedCard} editClicked={editClicked} editIsClicked={editIsClicked}></EditCard>
           <Grid container spacing={4}>
-                  {
-                      cardsArray?.map(card=>(
+                  
+                  {   searchText==='s' 
+                      ?
+                      cardsArray?.map(card=> (
+                        <BlogCard card={card} key={card.id} deleteCard={deleteCard} editCard={editCard} editClicked={editClicked}></BlogCard>
+                      ))
+                      :
+                      cardsArray?.filter(cardSearch=> cardSearch.title.includes(searchText)).map(card=> (
                         <BlogCard card={card} key={card.id} deleteCard={deleteCard} editCard={editCard} editClicked={editClicked}></BlogCard>
                       ))
                   }
+                  
           </Grid>
       </Container>
   
