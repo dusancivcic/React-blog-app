@@ -11,7 +11,7 @@ const BlogCard = ({card,deleteCard,editCard,editClicked}) =>{
     return(
        <>
             <Grid item xs={4}>
-                <Card style={{height: '100%'}} id={card.id}>
+                <Card style={{height: '100%', minHeight: '300px',display: 'flex', flexDirection: 'column'}} id={card.id}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                         {card.title}

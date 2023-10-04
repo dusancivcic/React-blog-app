@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
+import {v4 as uuidv4} from 'uuid';
 
 const AddNewCard = ({addNewClicked, addNewClickedClosed, addCard}) => {
 let [transition, setTransition] = useState('')
@@ -53,7 +53,7 @@ const handleTextChange = event =>{
                         </CardContent>
                         <CardActions>
                             <Button onClick={()=>{
-                                addCard(9,title,text)
+                                addCard(uuidv4(),title,text)
                                 setTransition('')
                                 setTimeout(()=>{
                                     setActive('')

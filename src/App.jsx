@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import AddNewCard from './AddNewCard';
 import EditCard from './EditCard';
 import TextField from '@mui/material/TextField';
+import Pagination from '@mui/material/Pagination';
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
   let [editedCard, setEditedCard] = useState({id: '', title: '', body: '', userId: ''})
   let [searchText, setSearchText] = useState('');
 
-  
+ 
+
   useEffect(()=>{
     fetch('https://dummyjson.com/posts')
     .then(res => res.json())
@@ -33,6 +35,22 @@ function App() {
   const handleSearchInput = event =>{
     setSearchText(event.target.value.toLowerCase())
 }
+
+  //PAGINATION
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  // Calculate the index range for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+
+  // Get the items for the current page
+
+    const currentItems = cardsArray?.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(cardsArray?.length / itemsPerPage);
+
+  
 
   const deleteCard = (id) => {
     fetch(`https://dummyjson.com/posts/${id}`, {
@@ -79,10 +97,14 @@ function App() {
           
       }
 
+      const paginationChange = (e,p) =>{
+        setCurrentPage(p)
+      }
+
   return (
     <>
      <Container>
-          <Stack style={{marginBottom: '40px', justifyContent: 'space-between'}} direction="row" spacing={2} >
+          <Stack style={{marginBottom: '80px', justifyContent: 'space-between'}} direction="row" spacing={2} >
             <Typography style={{fontSize: '40px'}} component="h1">
               Our blog
             </Typography>
@@ -96,18 +118,19 @@ function App() {
           <EditCard editCardHandler={editCardHandler} editedCard={editedCard} editClicked={editClicked} editIsClicked={editIsClicked}></EditCard>
           <Grid container spacing={4}>
                   
-                  {   searchText==='s' 
+                  {   searchText==='' 
                       ?
-                      cardsArray?.map(card=> (
+                      currentItems?.map(card=> (
                         <BlogCard card={card} key={card.id} deleteCard={deleteCard} editCard={editCard} editClicked={editClicked}></BlogCard>
                       ))
                       :
-                      cardsArray?.filter(cardSearch=> cardSearch.title.includes(searchText)).map(card=> (
+                      currentItems?.filter(cardSearch=> cardSearch.title.includes(searchText)).map(card=> (
                         <BlogCard card={card} key={card.id} deleteCard={deleteCard} editCard={editCard} editClicked={editClicked}></BlogCard>
                       ))
                   }
                   
           </Grid>
+          <Pagination count={totalPages} style={{marginTop: '40px', justifyContent: 'center'}} shape="rounded" onChange={paginationChange} />
       </Container>
   
     </>
